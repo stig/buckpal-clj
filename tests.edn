@@ -1,0 +1,3 @@
+#kaocha/v1
+{:plugins [:hooks]
+ :kaocha.hooks/post-load [buckpal.kaocha.hooks/post-load]}
