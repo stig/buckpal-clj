@@ -10,6 +10,17 @@
    [:baseline-balance Money]
    [:activity-window aw/ActivityWindow]])
 
+(defn account
+  {:malli/schema [:function
+                  [:=> [:cat Money aw/ActivityWindow] Account]
+                  [:=> [:cat [:or :nil AccountId] Money aw/ActivityWindow] Account]]}
+  ([baseline-balance activity-window]
+   (account nil baseline-balance activity-window))
+  ([id baseline-balance activity-window]
+   {:id id
+    :baseline-balance baseline-balance
+    :activity-window activity-window}))
+
 (defn calculate-balance
   "Calculates the balance for an account"
   {:malli/schema [:=> [:cat Account] Money]}

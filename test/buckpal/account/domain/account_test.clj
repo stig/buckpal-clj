@@ -4,7 +4,7 @@
             [buckpal.account.domain.activity :as act]
             [malli.generator :as mg]))
 
-(deftest account
+(deftest Account
   (testing "it can be generated"
     (is (mg/generate a/Account))))
 
@@ -12,12 +12,7 @@
   (act/activity :owner-account-id 1 :source-account-id src :target-account-id target :money money))
 
 (deftest calculate-balance
-  (testing "it can calculate balance of account with no activity"
-    (is (= 0 (a/calculate-balance {:id 1 :baseline-balance 0 :activity-window []})))
-
-    (testing "it takes baseline into account"
-      (is (= 10 (a/calculate-balance {:id 1 :baseline-balance 10 :activity-window []})))))
-
-  (testing "it uses activity if present"
-    (is (= 10 (a/calculate-balance {:id 1 :baseline-balance 0 :activity-window [(activity 2 1 10)]})))))
+  (testing "it calculates balance"
+    (is (= 1555 (a/calculate-balance (a/account 1 555 [(activity 2 1 999)
+                                                       (activity 2 1 1)]))))))
 
