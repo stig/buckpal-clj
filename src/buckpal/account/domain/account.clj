@@ -34,11 +34,24 @@
   (nat-int? (- (calculate-balance account) money)))
 
 (defn withdraw
-  [account money target-account-id]
+  [{:keys [id] :as account} money target-account-id]
   (when-not (:id account)
     (throw (IllegalStateException. "Cannot withdraw when missing account-id")))
+  (when-not (pos-int? money)
+    (throw (IllegalStateException. "Cannot withdraw negative amount")))
   (when (may-withdraw? account money)
-    (update account :activity-window conj (a/activity :owner-account-id (:id account)
-                                                      :source-account-id (:id account)
+    (update account :activity-window conj (a/activity :owner-account-id id
+                                                      :source-account-id id
                                                       :target-account-id target-account-id
                                                       :money money))))
+
+(defn deposit
+  [{:keys [id] :as account} money source-account-id]
+  (when-not (:id account)
+    (throw (IllegalStateException. "Cannot deposit when missing account-id")))
+  (when-not (pos-int? money)
+    (throw (IllegalStateException. "Cannot deposit negative amount")))
+  (update account :activity-window conj (a/activity :owner-account-id id
+                                                    :target-account-id id
+                                                    :source-account-id source-account-id
+                                                    :money money)))

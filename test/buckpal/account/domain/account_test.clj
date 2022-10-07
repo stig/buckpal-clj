@@ -20,10 +20,19 @@
   (let [account (a/account 1 555 [(activity 2 1 999)
                                   (activity 2 1 1)])]
     (testing "it can withdraw money"
-      (let [after (a/withdraw account 555 99)]
-        (is (some? after))
-        (is (= 3 (count (:activity-window after))))
-        (is (= 1000 (a/calculate-balance after)))))
+      (let [withdrawn (a/withdraw account 555 99)]
+        (is (some? withdrawn))
+        (is (= 3 (count (:activity-window withdrawn))))
+        (is (= 1000 (a/calculate-balance withdrawn)))))
 
     (testing "it can fail to withdraw money"
       (is (nil? (a/withdraw account 1556 99))))))
+
+(deftest deposit
+  (let [account (a/account 1 555 [(activity 2 1 999)
+                                  (activity 2 1 1)])]
+    (testing "it can deposit money"
+      (let [deposited (a/deposit account 445 99)]
+        (is (some? deposited))
+        (is (= 3 (count (:activity-window deposited))))
+        (is (= 2000 (a/calculate-balance deposited)))))))
