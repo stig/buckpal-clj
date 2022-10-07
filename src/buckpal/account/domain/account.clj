@@ -40,10 +40,7 @@
   (when-not (pos-int? money)
     (throw (IllegalStateException. "Cannot withdraw negative amount")))
   (when (may-withdraw? account money)
-    (update account :activity-window conj (a/activity :owner-account-id id
-                                                      :source-account-id id
-                                                      :target-account-id target-account-id
-                                                      :money money))))
+    (update account :activity-window conj (a/activity id id target-account-id money))))
 
 (defn deposit
   [{:keys [id] :as account} money source-account-id]
@@ -51,7 +48,4 @@
     (throw (IllegalStateException. "Cannot deposit when missing account-id")))
   (when-not (pos-int? money)
     (throw (IllegalStateException. "Cannot deposit negative amount")))
-  (update account :activity-window conj (a/activity :owner-account-id id
-                                                    :target-account-id id
-                                                    :source-account-id source-account-id
-                                                    :money money)))
+  (update account :activity-window conj (a/activity id source-account-id id money)))

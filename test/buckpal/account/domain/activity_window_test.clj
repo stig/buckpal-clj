@@ -37,10 +37,9 @@
 
 (deftest calculate-balance
   (testing "it calculates balance"
-    (let [[one two three] (mg/sample a/Activity)
-          one (assoc one :source-account-id 1 :target-account-id 2 :money 999)
-          two (assoc two :source-account-id 1 :target-account-id 2 :money 1)
-          three (assoc three  :source-account-id 2 :target-account-id 1 :money 500)
+    (let [one (a/activity 1 1 2 999)
+          two (a/activity 1 1 2 1)
+          three (a/activity 1 2 1 500)
           activity-window [one two three]]
       (is (= -500 (aw/calculate-balance activity-window 1)))
       (is (= 500 (aw/calculate-balance activity-window 2))))))

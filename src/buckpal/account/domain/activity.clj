@@ -20,8 +20,8 @@
 
 (defn activity
   "Create a new activity"
-  {:malli/schema [:=> [:cat [:* [:cat :keyword [:or AccountId Money]]]] Activity]}
-  [& {:keys [owner-account-id source-account-id target-account-id money] :as activity}]
+  {:malli/schema [:=> [:cat AccountId AccountId AccountId Money] Activity]}
+  [owner-account-id source-account-id target-account-id money]
   (when-not (validate-owner activity)
     (throw (IllegalStateException. "Owner account id must match either source or target")))
   {:id nil

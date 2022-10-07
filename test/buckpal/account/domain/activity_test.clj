@@ -10,7 +10,4 @@
 
 (deftest activity
   (testing "it can be constructed"
-    (is (m/validate a/Activity (a/activity :owner-account-id 1
-                                           :source-account-id 2
-                                           :target-account-id 1
-                                           :money 300)))))
+    (is (m/validate a/Activity (a/activity 1 2 1 300)))))
