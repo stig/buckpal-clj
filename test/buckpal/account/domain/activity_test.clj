@@ -4,6 +4,13 @@
             [malli.generator :as mg]
             [malli.core :as m]))
 
+(deftest ActivityId
+  (testing "it can be generated"
+    (is (mg/generate a/ActivityId)))
+
+  (testing "it is always positive"
+    (is (every? pos-int? (mg/sample a/ActivityId)))))
+
 (deftest Activity
   (testing "it can be generated"
     (is (mg/generate a/Activity))))
