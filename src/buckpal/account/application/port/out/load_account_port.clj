@@ -6,8 +6,11 @@
   (-load-account [this account-id baseline-date]
     "Load an account with activities since the baseline instant"))
 
+(def LAPProtocol
+  [:fn (partial satisfies? LoadAccountPort)])
+
 (defn load-account
-  {:malli/schema [:=> [:cat any? account-id/AccountId inst?] account/Account]}
+  {:malli/schema [:=> [:cat LAPProtocol account-id/AccountId inst?] account/Account]}
   [this account-id instant]
   (or (.-load-account this account-id instant)
       (throw (Exception. "Account not found"))))

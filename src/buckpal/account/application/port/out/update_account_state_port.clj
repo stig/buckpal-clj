@@ -5,7 +5,10 @@
   (-update-activities [this account]
     "Ensure activities are persisted if they are not already"))
 
+(def UASPProtocol
+  [:fn (partial satisfies? UpdateAccountStatePort)])
+
 (defn update-activities
-  {:malli/schema [:=> [:cat any? account/Account] :nil]}
+  {:malli/schema [:=> [:cat UASPProtocol account/Account] :nil]}
   [this account]
   (.-update-activities this account))

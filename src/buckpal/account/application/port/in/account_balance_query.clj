@@ -6,8 +6,11 @@
   (-get-account-balance [this account-id]
     "Return the account balance for an account"))
 
+(def ABQProtocol
+  [:fn (partial satisfies? AccountBalanceQuery)])
+
 (defn get-account-balance
   "Get balance for an account"
-  {:malli/schema [:=> [:cat any? AccountId] Money]}
+  {:malli/schema [:=> [:cat ABQProtocol AccountId] Money]}
   [this account-id]
   (.-get-account-balance this account-id))
